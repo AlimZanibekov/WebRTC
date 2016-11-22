@@ -1,0 +1,13 @@
+<div id="joinBox" ng-class="{'up' : up}">
+    <form class="central" ng-submit="user.join()" >
+        <div ng-class="{'has-error' : user.error.nameErr.activity || user.error.emptyErr.activity}">
+            <input type="text" placeholder="Your name" class="form-control" ng-model="user.name" ng-change="user.error.nameErr.activity = user.error.emptyErr.activity = false" autofocus>
+        </div>
+        <div ng-class="{'has-error' : user.error.passErr.activity || user.error.emptyPassErr.activity}">
+            <input type="text" placeholder="Your password" class="form-control" ng-model="user.pass" ng-change="user.error.passErr.activity = user.error.emptyPassErr.activity = false">
+        </div>
+        <div class="error" ng-repeat="(key, err) in user.error" ng-class="{show : user.error.{{key}}.activity}" >{{err.text}}</div>
+        <button class="btn btn-success" ng-disabled="user.disabled">Join</button>
+        <a href="#/signup">Sign up</a>
+    </form>
+</div>

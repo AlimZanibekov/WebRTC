@@ -1,0 +1,41 @@
+<div id="mainBox" ng-class="{'loaded' : loaded, 'remoteVideo' : remoteVideo, 'chat' : active }">
+    <div class="clients" ng-class="{'companion' : companion}">
+        <div class="client" ng-repeat="client in clients" ng-class="{'active' : client.active}">
+            <button class="btn btn-primary icon-local_phone" ng-click="call($index)" ng-disabled="client.call"></button>
+            <div class="clientName" ng-click="setActive($index)">
+                {{client.name}}
+            </div>
+            <span class="new" ng-if="client.num > 0">{{client.num}}</span>
+        </div>
+    </div>
+    <div class="miniVideo">
+        <video id="video"></video>
+        <div>
+            <button ng-click="micSwitch()" class="btn micSwitch" ng-class="{'btn-primary' : !muted, 'btn-default' : muted, 'icon-mic' : !muted, 'icon-mic_off' : muted}"></button>
+            <button ng-click="vidSwitch()" class="btn vidSwitch" ng-class="{'btn-primary' : !video, 'btn-default' : video, 'icon-videocam' : !video, 'icon-videocam_off' : video}"></button>
+        </div>
+    </div>
+    <div class="central">
+        <video id="videorem"></video>
+        <div class="remoteControl">
+            <input class="slider volume" type="range" min="0" max="1" step="0.01" ng-model="modVolume" value="{{modVolume}}" ng-change="setVolume()">
+            <button ng-click="uncall()" class="btn btn-danger uncall icon-call_end"></button> 
+        </div>
+    </div>
+    <div class="chat">
+        <div class="messages">
+            <div ng-repeat="message in chat[active]">
+                <div class="message" ng-class="{'my' : message.my}">
+                    <div class="text">
+                        {{message.text}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <form class="myMessage"  ng-submit="chat.send()" ng-class="{'has-error' : chat.error.emptyErr.activity || chat.error.activeErr.activity}">
+            <textarea class="form-control" id="messageTextarea" ng-model="chat.message" ng-change="chat.error.emptyErr.activity = false">{{chat.message}}</textarea>
+            <button class="btn btn-success icon-send"></button>
+            <div class="error" ng-repeat="(key, err) in chat.error" ng-class="{show : chat.error.{{key}}.activity}" >{{err.text}}</div>
+        </form>
+    </div>
+</div>
